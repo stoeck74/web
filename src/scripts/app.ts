@@ -13,6 +13,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { initPage, destroyPage } from './pages';
+import { runLoader } from './loader';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -111,6 +112,8 @@ document.addEventListener('astro:before-preparation', (event) => {
 });
 
 document.addEventListener('astro:before-swap', (event) => {
+  // Le loader n'existe qu'au premier chargement : on le retire des pages suivantes
+  event.newDocument.querySelector('[data-loader]')?.remove();
   destroyPage();
   ScrollTrigger.getAll().forEach((t) => t.kill());
   // La nouvelle page arrive masquée → pas de flash avant l'entrée
@@ -123,9 +126,15 @@ document.addEventListener('astro:after-swap', () => {
   startLenis();
 });
 
-document.addEventListener('astro:page-load', () => {
-  if (isFirstLoad) startLenis();
+document.addEventListener('astro:page-load', async () => {
   updateNav();
+
+  if (isFirstLoad) {
+    // Premier chargement : le loader joue, la page entre quand le rideau monte
+    await runLoader();
+    startLenis();
+  }
+
   enter();
   const page = getPage();
   if (page) initPage(page.dataset.namespace ?? '', page);

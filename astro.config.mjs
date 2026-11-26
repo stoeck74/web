@@ -18,5 +18,14 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+        // Windows : les notifications de fichiers ratent parfois un fichier
+        // remplacé par copie. Le polling vérifie les fichiers à intervalle régulier,
+        // plus besoin de relancer le serveur après chaque mise à jour.
+        usePolling: true,
+        interval: 300,
+      },
+    },
   },
 });

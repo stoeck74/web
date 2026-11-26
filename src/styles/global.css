@@ -1,12 +1,40 @@
 @import "tailwindcss";
 
+/* ---------- Charte CSS — Cédric Stoecklin Studio ----------
+   Typo  : Archivo (variable, axes graisse 100–900 + largeur 62–125 %)
+           → texte en largeur normale, titres en étroit (font-stretch 75 %)
+   Couleurs : noir / blanc froid, sans couleur d'accent pour l'instant.
+   La couleur vient des photos des projets. */
 @theme {
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
-  --color-ink: #111111;
-  --color-paper: #f4f3ef;
-  --color-muted: #8a8a85;
+  --font-sans: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #0e0f10;     /* texte, noir principal */
+  --color-paper: #f4f5f5;   /* fond, blanc cassé froid */
+  --color-muted: #5e6266;   /* texte secondaire */
+  --color-subtle: #9a9ea2;  /* métadonnées, légendes (petites tailles uniquement) */
+  --color-line: #dadde0;    /* filets, séparateurs */
+  --color-accent: var(--color-ink); /* à remplacer le jour où une couleur est choisie */
+
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* Titres étroits en capitales : <h1 class="title">…</h1> */
+@utility title {
+  font-stretch: 75%;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.005em;
+}
+
+/* Largeur étroite seule, sans capitales */
+@utility narrow {
+  font-stretch: 75%;
+}
+
+/* Variante « intro » : s'applique tant que le loader du premier chargement joue
+   (JS actif et intro pas encore vue). Ex. : intro:opacity-0 */
+@custom-variant intro (:where(.js:not(.intro-seen)) &);
 
 /* ---------- Lenis (styles recommandés) ---------- */
 html.lenis,
@@ -40,6 +68,17 @@ html.lenis body {
   .js [data-page] {
     opacity: 1;
   }
+}
+
+/* Réserve toujours la place de la barre de défilement (Windows) : la page ne se
+   décale pas quand le scroll est bloqué puis rétabli (loader, futures modales) */
+html {
+  scrollbar-gutter: stable;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
 body {

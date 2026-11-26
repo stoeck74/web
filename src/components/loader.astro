@@ -1,0 +1,43 @@
+---
+/**
+ * Loader du premier chargement — séquence pilotée par src/scripts/loader.ts :
+ *   ...  →  Cédric Stoecklin Studio  →  CSS  →  glisse jusqu'au logo du header
+ * Chaque mot est un élément à part, pour pouvoir l'effacer séparément.
+ * - Affiché uniquement si JS est actif (classe .js posée dans le <head>)
+ * - Masqué si .intro-seen (option « une fois par session », voir Base.astro)
+ * - Retiré des pages suivantes par le router (voir app.ts, astro:before-swap)
+ */
+---
+
+<div class="loader" data-loader aria-hidden="true">
+  <div class="loader__logo" data-loader-logo>
+    <span data-loader-dots></span><span data-loader-word></span><span data-loader-word></span><span data-loader-word></span>
+  </div>
+</div>
+
+<style>
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+  /* Visible dès le premier rendu, sans attendre le JS */
+  :global(.js:not(.intro-seen)) .loader {
+    display: flex;
+  }
+  .loader__logo {
+    display: flex;
+    align-items: center;
+    font-size: clamp(1.75rem, 5vw, 4.5rem);
+    font-weight: 500;
+    font-stretch: 75%; /* Archivo Narrow, comme les titres */
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: pre;
+  }
+</style>

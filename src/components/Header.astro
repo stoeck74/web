@@ -4,13 +4,29 @@ const links = [
   { href: '/projets/demo/', label: 'Démo' },
 ];
 const current = Astro.url.pathname;
+
+// Logo : mêmes réglages typo que le logo du loader (taille, graisse, étroit, interlettrage,
+// interligne 1) pour que le relais soit invisible. inline-flex : hauteur = interligne,
+// mesures comparables avec le loader. Masqué pendant le loader (intro:), puis révélé par loader.ts.
+const logoClass = [
+  'relative inline-flex text-2xl font-medium narrow tracking-[-0.01em] leading-none',
+  'transition-transform duration-600 ease-out-expo',
+  'hover:scale-125 focus-visible:scale-125',
+  'intro:opacity-0 motion-reduce:transition-none motion-reduce:opacity-100',
+].join(' ');
+
+// Accolades hors du bloc « CSS » (absolute) : elles ne changent pas sa largeur
+const braceClass = 'absolute top-0 intro:opacity-0 motion-reduce:opacity-100';
 ---
 
 <header
   class="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-5 mix-blend-difference text-white md:px-10"
   transition:persist="site-header"
 >
-  <a href="/" class="text-sm font-medium tracking-tight">Cédric Stoecklin</a>
+  <!-- Au premier chargement, le CSS du loader vient se poser ici (voir loader.ts) -->
+  <a href="/" class={logoClass} data-site-logo aria-label="CSS — Cédric Stoecklin Studio, accueil">
+    <span class={`${braceClass} right-full`} data-site-logo-brace aria-hidden="true">{'{'}</span>CSS<span class={`${braceClass} left-full`} data-site-logo-brace aria-hidden="true">{'}'}</span>
+  </a>
   <nav class="flex gap-6 text-sm">
     {links.map(({ href, label }) => (
       <a
