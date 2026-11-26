@@ -1,0 +1,26 @@
+---
+const links = [
+  { href: '/', label: 'Projets' },
+  { href: '/projets/demo/', label: 'Démo' },
+];
+const current = Astro.url.pathname;
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-5 mix-blend-difference text-white md:px-10"
+  transition:persist="site-header"
+>
+  <a href="/" class="text-sm font-medium tracking-tight">Cédric Stoecklin</a>
+  <nav class="flex gap-6 text-sm">
+    {links.map(({ href, label }) => (
+      <a
+        href={href}
+        class="opacity-60 transition-opacity hover:opacity-100 aria-[current=page]:opacity-100"
+        aria-current={current === href ? 'page' : undefined}
+        data-nav-link
+      >
+        {label}
+      </a>
+    ))}
+  </nav>
+</header>

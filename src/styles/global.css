@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #111111;
+  --color-paper: #f4f3ef;
+  --color-muted: #8a8a85;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Lenis (styles recommandés) ---------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ---------- Transitions de page ----------
+   Les animations sont pilotées par GSAP : on coupe le fondu natif
+   de la View Transitions API sur la racine pour éviter un double effet.
+   Les éléments nommés (transition:name) gardent leur morphing natif. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+/* Premier chargement : le contenu est masqué jusqu'à l'animation d'entrée.
+   La classe .js est posée par un script inline dans le <head> :
+   sans JS, rien n'est masqué. */
+.js [data-page] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-page] {
+    opacity: 1;
+  }
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+}

@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+
+const projects = [
+  { slug: 'demo', title: 'Projet démo', year: '2026', type: 'Site vitrine' },
+  { slug: 'demo', title: 'Atelier Vulliet', year: '2026', type: 'WordPress sur mesure' },
+  { slug: 'demo', title: 'Architypes', year: '2026', type: 'Site démo' },
+];
+---
+
+<Base title="Accueil" namespace="home">
+  <section class="flex min-h-[80svh] flex-col justify-end px-6 pb-16 pt-32 md:px-10">
+    <p class="mb-6 text-sm text-muted" data-reveal>Conception & développement web</p>
+    <h1 class="max-w-5xl text-5xl font-medium leading-[0.95] tracking-tight md:text-8xl" data-reveal>
+      Des sites pensés comme des images.
+    </h1>
+  </section>
+
+  <section class="px-6 pb-32 md:px-10">
+    <ul class="border-t border-ink/15">
+      {projects.map((p) => (
+        <li class="border-b border-ink/15" data-reveal>
+          <a
+            href={`/projets/${p.slug}/`}
+            class="group flex items-baseline justify-between gap-6 py-8 transition-colors hover:text-muted"
+          >
+            <span class="text-2xl font-medium tracking-tight md:text-4xl">{p.title}</span>
+            <span class="text-sm text-muted">{p.type} · {p.year}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- Hauteur de test pour vérifier Lenis -->
+  <section class="flex h-[120svh] items-center justify-center px-6 text-muted md:px-10">
+    <p>Zone de test du scroll</p>
+  </section>
+</Base>
